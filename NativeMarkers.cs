@@ -1,5 +1,5 @@
 ﻿using System.Runtime.InteropServices;
-
+/*
 namespace Unity.Profiling
 {
     public class NativeProfiler
@@ -19,3 +19,4 @@ namespace Unity.Profiling
         }
     }
 }
+*/

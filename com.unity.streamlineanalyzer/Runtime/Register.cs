@@ -4,19 +4,19 @@ namespace Unity.Profiling
 {
     public class StreamlineAnalyzer
     {
-        [DllImport("libstreamlineanalyzer")]
+        [DllImport("streamlineanalyzer")]
         public static extern void TraceInit();
 
-        [DllImport("libstreamlineanalyzer")]
+        [DllImport("streamlineanalyzer")]
         public static extern void TraceTerm();
 
-        [DllImport("libstreamlineanalyzer")]
+        [DllImport("streamlineanalyzer")]
         public static extern bool TraceIsEnabled();
 
-        [DllImport("libstreamlineanalyzer")]
+        [DllImport("streamlineanalyzer")]
         public static extern void TraceMarkerBegin([MarshalAs(UnmanagedType.LPStr)]string str);
 
-        [DllImport("libstreamlineanalyzer")]
+        [DllImport("streamlineanalyzer")]
         public static extern void TraceMarkerEnd();
     }
 }

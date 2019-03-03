@@ -25,11 +25,13 @@ class BuildProgram
         commands.Add(BuildCommand.Create(new AndroidNdkToolchain(AndroidNdk.Locatorx86.UserDefaultOrLatest), "android", "Android/x86"));
 
         NativeProgram androidStudioPlugin = new NativeProgram("libandroidstudio");
+        androidStudioPlugin.PrebuiltLibraries.Add(new SystemLibrary("log"));
         androidStudioPlugin.Sources.Add("src/ProfilerPlugin.cpp");
         androidStudioPlugin.Sources.Add("src/TraceApi_AndroidStudio.cpp");
         ProcessProgram(androidStudioPlugin, "../com.unity.androidstudio/Plugins", commands);
 
         NativeProgram streamlineAnalyzerPlugin = new NativeProgram("libstreamlineanalyzer");
+        streamlineAnalyzerPlugin.PrebuiltLibraries.Add(new SystemLibrary("log"));
         streamlineAnalyzerPlugin.Sources.Add("src/ProfilerPlugin.cpp");
         streamlineAnalyzerPlugin.Sources.Add("src/TraceApi_AndroidStudio.cpp");
         streamlineAnalyzerPlugin.Sources.Add("src/Arm");

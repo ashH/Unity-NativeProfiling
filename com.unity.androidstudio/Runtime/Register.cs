@@ -4,19 +4,19 @@ namespace Unity.Profiling
 {
     public class AndroidStudioSystrace
     {
-        [DllImport("libandroidstudio")]
+        [DllImport("androidstudio")]
         public static extern void TraceInit();
 
-        [DllImport("libandroidstudio")]
+        [DllImport("androidstudio")]
         public static extern void TraceTerm();
 
-        [DllImport("libandroidstudio")]
+        [DllImport("androidstudio")]
         public static extern bool TraceIsEnabled();
 
-        [DllImport("libandroidstudio")]
+        [DllImport("androidstudio")]
         public static extern void TraceMarkerBegin([MarshalAs(UnmanagedType.LPStr)]string str);
 
-        [DllImport("libandroidstudio")]
+        [DllImport("androidstudio")]
         public static extern void TraceMarkerEnd();
     }
 }

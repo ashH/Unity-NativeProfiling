@@ -136,6 +136,14 @@ typedef struct UnityProfilerMarkerData
     const void* ptr;
 } UnityProfilerMarkerData;
 
+enum UnityProfilerFlowEventType_
+{
+    kUnityProfilerFlowEventTypeBegin = 0,
+    kUnityProfilerFlowEventTypeNext  = 1,
+    kUnityProfilerFlowEventTypeEnd   = 2,
+};
+typedef uint8_t UnityProfilerFlowEventType;
+
 typedef struct UnityProfilerThreadDesc
 {
     // Thread id c-casted to uint64_t.
@@ -172,7 +180,15 @@ typedef void (UNITY_INTERFACE_API * IUnityProfilerFrameCallback)(void* userData)
 // \param userData is an optional context pointer passed with RegisterCreateEventCallback call.
 typedef void (UNITY_INTERFACE_API * IUnityProfilerThreadCallback)(const UnityProfilerThreadDesc* threadDesc, void* userData);
 
-UNITY_DECLARE_INTERFACE(IUnityProfilerCallbacks)
+// Called when a profiler flow event occurs.
+// Flow events connect events across threads allowing to trace related activities initiated from a control(main) thread.
+// \param flowEventType is a flow event type.
+// \param flowId is an unique incremental identifier for the flow chain.
+// \param userData is an optional context pointer passed with RegisterCreateEventCallback call.
+typedef void (UNITY_INTERFACE_API * IUnityProfilerFlowEventCallback)(UnityProfilerFlowEventType flowEventType, uint32_t flowId, void* userData);
+
+// Available since 2019.1
+UNITY_DECLARE_INTERFACE(IUnityProfilerCallbacksV2)
 {
     // Register a callback which is called when a new category is created.
     // Returns 0 on success and non-zero in case of error.
@@ -208,6 +224,34 @@ UNITY_DECLARE_INTERFACE(IUnityProfilerCallbacks)
     // Register a callback which is called every time a new thread is registered with profiler.
     // Returns 0 on success and non-zero in case of error.
     // Only up to 4 callbacks can be registered.
+    int(UNITY_INTERFACE_API * RegisterCreateThreadCallback)(IUnityProfilerThreadCallback callback, void* userData);
+    int(UNITY_INTERFACE_API * UnregisterCreateThreadCallback)(IUnityProfilerThreadCallback callback, void* userData);
+
+    // Register a callback which is called every time Unity generates a flow event.
+    // Returns 0 on success and non-zero in case of error.
+    int(UNITY_INTERFACE_API * RegisterFlowEventCallback)(IUnityProfilerFlowEventCallback callback, void* userData);
+    // Unregister flow event callback.
+    // \param userData optional context pointer.
+    int(UNITY_INTERFACE_API * UnregisterFlowEventCallback)(IUnityProfilerFlowEventCallback callback, void* userData);
+
+};
+UNITY_REGISTER_INTERFACE_GUID(0x5DEB59E88F2D4571ULL, 0x81E8583069A5E33CULL, IUnityProfilerCallbacksV2)
+
+// Available since 2018.3
+UNITY_DECLARE_INTERFACE(IUnityProfilerCallbacks)
+{
+    int(UNITY_INTERFACE_API * RegisterCreateCategoryCallback)(IUnityProfilerCreateCategoryCallback callback, void* userData);
+    int(UNITY_INTERFACE_API * UnregisterCreateCategoryCallback)(IUnityProfilerCreateCategoryCallback callback, void* userData);
+
+    int(UNITY_INTERFACE_API * RegisterCreateMarkerCallback)(IUnityProfilerCreateMarkerCallback callback, void* userData);
+    int(UNITY_INTERFACE_API * UnregisterCreateMarkerCallback)(IUnityProfilerCreateMarkerCallback callback, void* userData);
+
+    int(UNITY_INTERFACE_API * RegisterMarkerEventCallback)(const UnityProfilerMarkerDesc * markerDesc, IUnityProfilerMarkerEventCallback callback, void* userData);
+    int(UNITY_INTERFACE_API * UnregisterMarkerEventCallback)(const UnityProfilerMarkerDesc * markerDesc, IUnityProfilerMarkerEventCallback callback, void* userData);
+
+    int(UNITY_INTERFACE_API * RegisterFrameCallback)(IUnityProfilerFrameCallback callback, void* userData);
+    int(UNITY_INTERFACE_API * UnregisterFrameCallback)(IUnityProfilerFrameCallback callback, void* userData);
+
     int(UNITY_INTERFACE_API * RegisterCreateThreadCallback)(IUnityProfilerThreadCallback callback, void* userData);
     int(UNITY_INTERFACE_API * UnregisterCreateThreadCallback)(IUnityProfilerThreadCallback callback, void* userData);
 };

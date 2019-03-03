@@ -10,7 +10,7 @@ namespace Unity.Profiling
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static private void Integrate()
         {
-            NativeProfiler.TraceInit();
+            StreamlineAnalyzer.TraceInit();
 
             var loop = PlayerLoop.GetDefaultPlayerLoop();
 
@@ -27,9 +27,9 @@ namespace Unity.Profiling
         static private void TraceMarker(int level, string name)
         {
             for (int i = level; i <= m_LastLevel; i++)
-                NativeProfiler.TraceEnd();
+                StreamlineAnalyzer.TraceMarkerEnd();
 
-            NativeProfiler.TraceBegin(level.ToString() + "|" + name);
+            StreamlineAnalyzer.TraceMarkerBegin(level.ToString() + "|" + name);
             m_LastLevel = level;
         }
 
