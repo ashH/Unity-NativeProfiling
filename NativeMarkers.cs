@@ -4,16 +4,6 @@ namespace Unity.Profiling
 {
     public class NativeProfiler
     {
-#if ENABLE_IL2CPP
-        [DllImport("__Internal")]
-        public static extern void TraceInit();
-
-        [DllImport("__Internal")]
-        public static extern void TraceBegin([MarshalAs(UnmanagedType.LPStr)]string str);
-
-        [DllImport("__Internal")]
-        public static extern void TraceEnd();
-#else
         public static void TraceInit()
         {
         }
@@ -27,6 +17,5 @@ namespace Unity.Profiling
         {
             UnityEngine.Debug.Log("E");
         }
-#endif
-}
+    }
 }

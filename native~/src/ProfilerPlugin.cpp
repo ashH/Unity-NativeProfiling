@@ -1,7 +1,7 @@
 #include <string.h>
 #include "Unity/IUnityInterface.h"
 #include "Unity/IUnityProfilerCallbacks.h"
-#include "AndroidTraceApi.h"
+#include "TraceApi.h"
 
 class AndroidSystraceProfiler
 {

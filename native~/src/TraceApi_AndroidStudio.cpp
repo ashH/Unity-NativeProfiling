@@ -1,5 +1,5 @@
 #include <dlfcn.h>
-#include "AndroidTraceApi.h"
+#include "TraceApi.h"
 
 typedef void(*fp_ATrace_beginSection) (const char* sectionName);
 typedef void(*fp_ATrace_endSection) ();
