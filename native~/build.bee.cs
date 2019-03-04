@@ -33,7 +33,7 @@ class BuildProgram
         NativeProgram streamlineAnalyzerPlugin = new NativeProgram("libstreamlineanalyzer");
         streamlineAnalyzerPlugin.PrebuiltLibraries.Add(new SystemLibrary("log"));
         streamlineAnalyzerPlugin.Sources.Add("src/ProfilerPlugin.cpp");
-        streamlineAnalyzerPlugin.Sources.Add("src/TraceApi_AndroidStudio.cpp");
+        streamlineAnalyzerPlugin.Sources.Add("src/TraceApi_StreamlineAnalyzer.cpp");
         streamlineAnalyzerPlugin.Sources.Add("src/Arm");
         ProcessProgram(streamlineAnalyzerPlugin, "../com.unity.streamlineanalyzer/Plugins", commands);
     }
