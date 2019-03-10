@@ -1,0 +1,16 @@
+{
+    "name": "Unity.NativeProfilers.Editor",
+    "references": [
+        "Unity.NativeProfilers"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": []
+}

@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+      "com.unity.nativeprofilers": "0.1.0",
+  }, 
+  "name": "com.unity.nativeprofilers.streamlineanalyzer",
+  "displayName":  "Arm Streamline Analyzer integration",
+  "version": "0.1.0",
+  "unity": "2018.2",
+  "description": "Arm Streamline Analyzer integration with Unity for profiling. It adds annotations to Streamline Analyzer captures\n\nThis package is only supported Android platforms.",
+  "keywords": [
+    "performance",
+    "unity"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "URL_GOES_HERE",
+    "revision": "REVISION_GOES_HERE"
+  }
+}

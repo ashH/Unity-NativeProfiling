@@ -1,0 +1,59 @@
+<UXML xmlns:ui="UnityEngine.Experimental.UIElements" xmlns:ue="UnityEditor.Experimental.UIElements">
+    <ui:VisualElement name="root">
+        <ui:VisualElement name="header">
+            <ui:VisualElement class="warning-panel">
+                <ui:Image name="icon"/>
+                <ui:Label name="text" text="Native profiling configuration wizzard for Unity projects"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:ScrollView name="wizard" stretch-content-width="true" focusIndex="1">
+            <ui:VisualElement name="wizard-view">
+                <ui:VisualElement name="group-1" class="wizard-group vertical-group">
+                    <ui:Label text="1" name="phase" class="h1"/>
+                    <ui:VisualElement class="vertical-separator" />
+                    <ui:VisualElement class="horizontal-group stretch-content">
+                        <ui:Label text="Select native profiling tool" class="h2"/>
+                        <ui:Button name="selector" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement name="group-2" class="wizard-group vertical-group">
+                    <ui:Label text="2" name="phase" class="h1"/>
+                    <ui:VisualElement class="vertical-separator" />
+                    <ui:VisualElement class="horizontal-group stretch-content">
+                        <ui:Label name="header" class="h2"/>
+                        <ui:VisualElement name="content"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement name="group-3" class="wizard-group vertical-group">
+                    <ui:Label text="3" name="phase" class="h1"/>
+                    <ui:VisualElement class="vertical-separator" />
+                    <ui:VisualElement class="horizontal-group stretch-content">
+                        <ui:Label name="header" class="h2"/>
+                        <ui:VisualElement name="content"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement name="group-4" class="wizard-group vertical-group">
+                    <ui:Label text="4" name="phase" class="h1"/>
+                    <ui:VisualElement class="vertical-separator" />
+                    <ui:VisualElement class="horizontal-group stretch-content">
+                        <ui:Label name="header" class="h2"/>
+                        <ui:VisualElement name="content"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement name="group-5" class="wizard-group vertical-group">
+                    <ui:Label text="5" name="phase" class="h1"/>
+                    <ui:VisualElement class="vertical-separator" />
+                    <ui:VisualElement class="horizontal-group stretch-content">
+                        <ui:Label name="header" class="h2"/>
+                        <ui:VisualElement name="content"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ui:VisualElement>
+</UXML>

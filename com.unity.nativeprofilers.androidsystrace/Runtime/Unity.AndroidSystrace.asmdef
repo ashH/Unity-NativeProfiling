@@ -1,0 +1,16 @@
+{
+    "name": "Unity.AndroidSystrace",
+    "references": [
+        "Unity.NativeProfilers"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Android"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": []
+}

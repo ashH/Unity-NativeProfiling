@@ -1,0 +1,16 @@
+{
+  "name": "com.unity.nativeprofilers",
+  "displayName":  "Native profilers integration",
+  "version": "0.1.0",
+  "unity": "2017.4",
+  "description": "This package helps setup you project for profiling with different external native profilers.",
+  "keywords": [
+    "performance",
+    "unity"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "URL_GOES_HERE",
+    "revision": "REVISION_GOES_HERE"
+  }
+}

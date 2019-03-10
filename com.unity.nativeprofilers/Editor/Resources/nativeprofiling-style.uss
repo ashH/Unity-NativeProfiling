@@ -1,0 +1,150 @@
+#root {
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+#root > #header {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+
+    border-color: rgb(66, 133, 244);
+    border-bottom-width: 2px;
+
+    background-color: rgb(243, 243, 243);
+
+    flex-direction: column;
+}
+
+#wizard {
+    flex-grow: 1;    
+}
+
+#wizard #content {
+    margin-left: 5px;
+    margin-right: 5px;
+
+    flex-grow: 1;    
+}
+
+#wizard #phase {
+    min-width: 50px;
+}
+
+.wizard-group {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.wizard-group .name-label {
+    width: 250px;
+}
+
+.notify {
+    background-color: rgb(66, 133, 244);
+
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
+
+    border-color: rgb(255, 255, 255);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+
+    flex-direction: row;
+}
+
+.horizontal-group {
+    flex-direction: column;
+}
+.vertical-group {
+    flex-direction: row;
+}
+
+#wizard-view {
+    flex-direction: column;
+}
+
+.large-text {
+    font-size: 20;
+}
+
+.h1 {
+    font-size: 20;
+    margin-top: 6px;
+    margin-bottom: 12px;
+}
+
+.h2 {
+    font-size: 16;
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+.stretch-content {
+    flex-grow: 1;    
+}
+
+.vertical-separator {
+    min-width: 1px;
+    max-width: 1px;
+    background-color: rgb(63, 63, 63);
+}
+
+.horizontal-separator {
+    min-height: 1px;
+    max-height: 1px;
+    background-color: rgb(63, 63, 63);
+}
+
+
+.warning-panel {
+    flex-grow: 1;    
+    flex-direction: row;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+
+    border-color: rgb(0, 0, 0);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-radius: 4px;
+
+    background-color: rgb(236, 236, 236);
+}
+
+.warning-panel > #icon {
+    width: 32px;
+    height: 32px;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+
+    background-image: resource("ui-exclamation-mark");
+}
+
+.warning-panel > #text {
+    text-alignment: middle-left;
+    -unity-text-align: middle-left;
+}
+
+.compact-button {
+    margin-top: 1px;
+    margin-bottom: 0px;
+
+    padding-top: 2px;
+    padding-bottom: 3px;
+
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+}
