@@ -47,24 +47,23 @@ namespace Unity.NativeProfiling
 
         public void BuildUI(VisualElement root)
         {
-            foreach (var item in root.Children())
-            {
-                item.RemoveFromHierarchy();
-            }
-
             foreach (var i in m_ValidationParams)
             {
                 var nameLabel = new Label(i.Name);
                 nameLabel.AddToClassList("name-label");
 
+                var statusGroup = new VisualElement();
                 var statusLabel = new Label("Good");
                 var statusFixButton = new Button();
+
+                statusLabel.name = "status";
                 statusLabel.style.positionType = PositionType.Absolute;
                 statusFixButton.text = "Fix";
+                statusFixButton.name = "status-fix";
                 statusFixButton.style.positionType = PositionType.Absolute;
                 statusFixButton.AddToClassList("compact-button");
+                statusFixButton.clickable.clicked += () => { i.Fix(); UpdateStatus(i, statusGroup); };
 
-                var statusGroup = new VisualElement();
                 statusGroup.Add(statusLabel);
                 statusGroup.Add(statusFixButton);
 
@@ -78,11 +77,15 @@ namespace Unity.NativeProfiling
                 paramGroup.Add(statusGroup);
                 root.Add(paramGroup);
 
-                var status = i.Check();
-                statusLabel.visible = status;
-                statusFixButton.visible = !status;
-
+                UpdateStatus(i, statusGroup);
             }
+        }
+
+        private void UpdateStatus(ValidationParam param, VisualElement root)
+        {
+            var status = param.Check();
+            root.Q("status").visible = status;
+            root.Q("status-fix").visible = !status;
         }
     }
     public class InstructionPhase : NativeToolPhase
@@ -97,7 +100,9 @@ namespace Unity.NativeProfiling
 
         public void BuildUI(VisualElement root)
         {
-            root.Add(new Label("Here goes instruction set with link to document"));
+            var label = new Label("Here goes instruction set with link to document");
+            label.AddToClassList("link");
+            root.Add(label);
         }
     }
 

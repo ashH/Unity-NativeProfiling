@@ -148,3 +148,18 @@
     border-top-width: 0px;
     border-bottom-width: 0px;
 }
+
+.link {
+  color: #0808FC;
+  background: rgba(0, 0, 0, 0);
+  background-image: none;
+  margin-top: 0;
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-right: 0;
+  padding-top: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+  cursor: link;
+}

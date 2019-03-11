@@ -75,13 +75,17 @@ namespace Unity.NativeProfiling
             public void BuildUI(VisualElement root)
             {
                 var enablePP = new Button();
+                enablePP.clickable.clicked += () => { UpdateStatus(!EditorPrefs.GetBool(kAndroidDebugInfoPostprocessorKey, false), enablePP); };
                 root.Add(enablePP);
-                enablePP.clickable.clicked += () =>
-                {
-                    bool ppStatus = EditorPrefs.GetBool(kAndroidDebugInfoPostprocessorKey, false);
-                    EditorPrefs.SetBool(kAndroidDebugInfoPostprocessorKey, !ppStatus);
-                    enablePP.text = (ppStatus ? "Disable" : "Enable") + " Android Debug Info postprocessor";
-                };
+
+                UpdateStatus(EditorPrefs.GetBool(kAndroidDebugInfoPostprocessorKey, false), enablePP);
+            }
+
+            private void UpdateStatus(bool status, Button button)
+            {
+                bool ppStatus = EditorPrefs.GetBool(kAndroidDebugInfoPostprocessorKey, false);
+                EditorPrefs.SetBool(kAndroidDebugInfoPostprocessorKey, status);
+                button.text = status ? "Disabled" : "Enabled";
             }
         }
     }
