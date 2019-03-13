@@ -1,18 +1,18 @@
 <UXML xmlns:ui="UnityEngine.Experimental.UIElements" xmlns:ue="UnityEditor.Experimental.UIElements">
     <ui:VisualElement name="wizard">
         <ui:VisualElement name="header">
-            <ui:VisualElement class="warning-panel">
+            <ui:VisualElement class="warningPanel">
                 <ui:Image name="icon"/>
                 <ui:Label name="text" text="Native profiling configuration wizzard for Unity projects"/>
             </ui:VisualElement>
         </ui:VisualElement>
 
         <ui:ScrollView name="phases" stretch-content-width="true" focusIndex="1">
-            <ui:VisualElement name="phases-view">
-                <ui:VisualElement name="tool-selector" class="wizard-group horizontal-group">
+            <ui:VisualElement name="phasesView">
+                <ui:VisualElement name="toolSelector" class="wizardGroup horizontalGroup">
                     <ui:Label text="1" name="phase" class="h1"/>
-                    <ui:VisualElement class="vertical-separator" />
-                    <ui:VisualElement class="vertical-group stretch-content">
+                    <ui:VisualElement class="verticalSeparator" />
+                    <ui:VisualElement class="verticalGroup stretchContent">
                         <ui:Label text="Select native profiling tool" class="h2"/>
                         <ui:Button name="selector" />
                     </ui:VisualElement>

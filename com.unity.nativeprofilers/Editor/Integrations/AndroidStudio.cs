@@ -22,7 +22,9 @@ namespace Unity.NativeProfiling
         {
             yield return new AndroidValidationPhase();
             yield return new BuildPostprocessPhase();
+#if UNITY_2018_2_OR_NEWER
             yield return new AndroidDeviceCheckPhase();
+#endif
             yield return new TextWizardPhase("Instructions", 
                 "Open exported Gradle project in Android Studio and start profiler.\nFor Android Studio setup and guides click on _this link_", 
                 "https://docs.google.com/document/d/17WJQZyT4PSSumEZvyvDlpAfC0qZER_vRqmkhrelU6k4/edit?usp=sharing");
@@ -39,7 +41,7 @@ namespace Unity.NativeProfiling
             {
                 base.Update(root);
 
-                var enablePP = new Button();
+                var enablePP = new Button(null);
                 enablePP.clickable.clicked += () => { UpdateStatus(!EditorPrefs.GetBool(kAndroidDebugInfoPostprocessorKey, false), enablePP); };
                 root.Q("content").Add(enablePP);
 
@@ -48,7 +50,6 @@ namespace Unity.NativeProfiling
 
             private void UpdateStatus(bool status, Button button)
             {
-                bool ppStatus = EditorPrefs.GetBool(kAndroidDebugInfoPostprocessorKey, false);
                 EditorPrefs.SetBool(kAndroidDebugInfoPostprocessorKey, status);
                 button.text = status ? "Disabled" : "Enabled";
             }

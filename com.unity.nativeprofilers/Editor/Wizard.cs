@@ -45,8 +45,8 @@ namespace Unity.NativeProfiling
         protected VisualElement AddTable(VisualElement root)
         {
             var table = new VisualElement();
-            table.AddToClassList("wizard-table");
-            table.AddToClassList("vertical-group");
+            table.AddToClassList("wizardTable");
+            table.AddToClassList("verticalGroup");
             root.Add(table);
             return table;
         }
@@ -55,12 +55,12 @@ namespace Unity.NativeProfiling
         {
             var separator = new VisualElement();
             separator.name = "separator";
-            separator.AddToClassList("horizontal-separator");
+            separator.AddToClassList("horizontalSeparator");
             root.Add(separator);
 
             var rowGroup = new VisualElement();
-            rowGroup.AddToClassList("wizard-table-row");
-            rowGroup.AddToClassList("horizontal-group");
+            rowGroup.AddToClassList("wizardTableRow");
+            rowGroup.AddToClassList("horizontalGroup");
             root.Add(rowGroup);
 
             return rowGroup;
@@ -82,7 +82,7 @@ namespace Unity.NativeProfiling
         {
             base.Update(root);
 
-            var descrText = new TextElement();
+            var descrText = new Label();
             descrText.text = m_Description;
             root.Q("content").Add(descrText);
 

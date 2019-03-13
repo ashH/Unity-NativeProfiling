@@ -43,18 +43,20 @@ namespace Unity.NativeProfiling
             var rowRoot = AddTableRow(table);
 
             var nameLabel = new Label(name);
-            nameLabel.AddToClassList("name-label");
+            nameLabel.AddToClassList("nameLabel");
 
             var statusGroup = new VisualElement();
+            statusGroup.style.flex = 1;
+
             var statusLabel = new Label("Good");
-            var statusFixButton = new Button();
+            var statusFixButton = new Button(null);
 
             statusLabel.name = "status";
             statusLabel.style.positionType = PositionType.Absolute;
             statusFixButton.text = "Fix";
-            statusFixButton.name = "status-fix";
+            statusFixButton.name = "statusFix";
             statusFixButton.style.positionType = PositionType.Absolute;
-            statusFixButton.AddToClassList("compact-button");
+            statusFixButton.AddToClassList("compactButton");
             statusFixButton.clickable.clicked += () => {
                 fix();
                 UpdateStatus(check, statusGroup);
@@ -75,7 +77,7 @@ namespace Unity.NativeProfiling
         {
             var status = check();
             root.Q("status").visible = status;
-            root.Q("status-fix").visible = !status;
+            root.Q("statusFix").visible = !status;
         }
     }
 }

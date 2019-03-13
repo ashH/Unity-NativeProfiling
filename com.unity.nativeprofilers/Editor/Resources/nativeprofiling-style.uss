@@ -22,27 +22,28 @@
 }
 
 .link {
-  color: #0808FC;
-  background: rgba(0, 0, 0, 0);
-  background-image: none;
-  margin-top: 0;
-  margin-left: 0;
-  margin-bottom: 0;
-  margin-right: 0;
-  padding-top: 0;
-  padding-left: 0;
-  padding-bottom: 0;
-  padding-right: 0;
-  cursor: link;
+    color: #0808FC;
+    text-color: #0808FC;
+    background: rgba(0, 0, 0, 0);
+    background-image: none;
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    padding-top: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+    cursor: link;
 }
 
-.vertical-separator {
+.verticalSeparator {
     min-width: 1px;
     max-width: 1px;
     background-color: rgb(63, 63, 63);
 }
 
-.horizontal-separator {
+.horizontalSeparator {
     min-height: 1px;
     max-height: 1px;
     background-color: rgb(63, 63, 63);
@@ -51,11 +52,11 @@
 /**********************************************************************************************************************/
 /* Generic layout                                                                                                    */
 /**********************************************************************************************************************/
-.horizontal-group {
+.horizontalGroup {
     flex-direction: row;
 }
 
-.vertical-group {
+.verticalGroup {
     flex-direction: column;
 }
 
@@ -63,8 +64,7 @@
 /**********************************************************************************************************************/
 /* Warning panel                                                                                                      */
 /**********************************************************************************************************************/
-.warning-panel {
-    flex: 1;
+.warningPanel {
     flex-grow: 1;    
     flex-direction: row;
 
@@ -83,7 +83,7 @@
     background-color: rgb(236, 236, 236);
 }
 
-.warning-panel > #icon {
+.warningPanel > #icon {
     width: 32px;
     height: 32px;
 
@@ -92,10 +92,10 @@
     margin-right: 5px;
     margin-left: 5px;
 
-    background-image: resource("ui-exclamation-mark");
+    background-image:resource("uiExclamationMark");
 }
 
-.warning-panel > #text {
+.warningPanel > #text {
     text-alignment: middle-left;
     -unity-text-align: middle-left;
 }
@@ -141,36 +141,38 @@
     min-width: 50px;
 }
 
-.wizard-group {
+.wizardGroup {
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
-.wizard-group .name-label {
+.wizardGroup .nameLabel {
     width: 250px;
 }
 
-.wizard-group .value-label {
+.wizardGroup .valueLabel {
     width: 100px;
 }
 
-.compact-button {
+.compactButton {
     margin-top: 1px;
     margin-bottom: 0px;
 
     padding-top: 2px;
     padding-bottom: 3px;
 
+    border-top: 0px;
     border-top-width: 0px;
+    border-bottom: 0px;
     border-bottom-width: 0px;
 }
 
-.stretch-content {
+.stretchContent {
     flex: 1;
     flex-grow: 1;
 }
 
-.padding-lr {
+.paddingLR {
     padding-left: 5px;
     padding-right: 5px;
 }

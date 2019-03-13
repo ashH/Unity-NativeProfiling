@@ -21,7 +21,7 @@ namespace Unity.NativeProfiling
             foreach (var dev in m_Devices)
                 GenrateDeviceTable(content, dev.Value);
 
-            var refreshBtn = new Button();
+            var refreshBtn = new Button(null);
             refreshBtn.text = "Refresh";
             refreshBtn.clickable.clicked += () => { Refresh(); Update(root); };
             content.Add(refreshBtn);
@@ -56,11 +56,11 @@ namespace Unity.NativeProfiling
             var row = AddTableRow(root);
 
             var nameLabel = new Label(name);
-            nameLabel.AddToClassList("name-label");
+            nameLabel.AddToClassList("nameLabel");
             row.Add(nameLabel);
 
             var valueLabel = new Label(val);
-            valueLabel.AddToClassList("value-label");
+            valueLabel.AddToClassList("valueLabel");
             row.Add(valueLabel);
 
             var statusLabel = new Label(status);

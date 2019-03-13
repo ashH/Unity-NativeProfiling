@@ -48,17 +48,14 @@ namespace Unity.NativeProfiling
             var template = Resources.Load<VisualTreeAsset>("nativeprofiling-template");
             template.CloneTree(root, null);
 
-            m_ToolSelector = root.Q("tool-selector").Q<Button>("selector");
-            m_ToolSelector.clickable.clickedWithEventInfo += OnToolSelectorMouseDown;
+            m_ToolSelector = root.Q("toolSelector").Q<Button>("selector");
+            m_ToolSelector.clickable.clicked += OnToolSelectorMouseDown;
 
             SetActiveTool(null);
         }
 
-        private void OnToolSelectorMouseDown(EventBase evt)
+        private void OnToolSelectorMouseDown()
         {
-            if (evt.propagationPhase != PropagationPhase.AtTarget)
-                return;
-
             var menu = new GenericMenu();
             menu.AddItem(new GUIContent("None"), m_ActiveTool == null, () => { SetActiveTool(null); });
             foreach (var tool in m_Tools)
@@ -67,7 +64,6 @@ namespace Unity.NativeProfiling
             }
 
             // Show dropdown menu
-            var root = this.GetRootVisualContainer();
             var menuPosition = new Vector2(0, m_ToolSelector.layout.height);
             menuPosition = m_ToolSelector.LocalToWorld(menuPosition);
             var menuRect = new Rect(menuPosition, Vector2.zero);
@@ -105,15 +101,15 @@ namespace Unity.NativeProfiling
             }
 
             // Generate UI for wizard phases
-            var root = this.GetRootVisualContainer().Q("phases-view");
+            var root = this.GetRootVisualContainer().Q("phasesView");
             if (m_ActiveTool.GetPhases() != null)
             {
                 int counter = 2;
                 foreach (var phase in m_ActiveTool.GetPhases())
                 {
                     var phaseGroup = new VisualElement();
-                    phaseGroup.AddToClassList("wizard-group");
-                    phaseGroup.AddToClassList("horizontal-group");
+                    phaseGroup.AddToClassList("wizardGroup");
+                    phaseGroup.AddToClassList("horizontalGroup");
                     phase.SetPhase(counter);
                     phase.Update(phaseGroup);
 
