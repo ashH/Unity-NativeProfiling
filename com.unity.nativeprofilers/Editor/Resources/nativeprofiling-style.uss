@@ -64,6 +64,7 @@
 /* Warning panel                                                                                                      */
 /**********************************************************************************************************************/
 .warning-panel {
+    flex: 1;
     flex-grow: 1;    
     flex-direction: row;
 
@@ -103,6 +104,7 @@
 /* Wizard window header                                                                                               */
 /**********************************************************************************************************************/
 #wizard {
+    flex: 1;
     flex-grow: 1;
     flex-direction: column;
 }
@@ -122,6 +124,7 @@
 }
 
 #wizard #phases {
+    flex: 1;
     flex-grow: 1;    
 }
 
@@ -129,6 +132,7 @@
     margin-left: 5px;
     margin-right: 5px;
 
+    flex: 1;
     flex-grow: 1;    
     flex-direction: column;
 }
@@ -162,6 +166,7 @@
 }
 
 .stretch-content {
+    flex: 1;
     flex-grow: 1;
 }
 

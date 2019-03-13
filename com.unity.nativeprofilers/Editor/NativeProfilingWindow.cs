@@ -11,6 +11,7 @@ using UnityEditor.PackageManager;
 // - Save last selected tool
 // - Colors for enabled/disabled post-processor
 // - Streamline Analyzer - same as AS integration, just w/o export (build APK) and with different plugin
+// Streamline doesn't need post-processor, as it can load symbold from separate files
 // - VTune integration - development/release, with plugin and ScriptablePlayerLoop class (depends on build type, as DEFINE, to exclude in Development build)
 // - MGD - vulkan/ogl - can I include pre-build .so with plugin?
 
