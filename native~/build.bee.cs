@@ -28,14 +28,14 @@ class BuildProgram
         androidStudioPlugin.PrebuiltLibraries.Add(new SystemLibrary("log"));
         androidStudioPlugin.Sources.Add("src/ProfilerPlugin.cpp");
         androidStudioPlugin.Sources.Add("src/TraceApi_AndroidStudio.cpp");
-        ProcessProgram(androidStudioPlugin, "../com.unity.androidstudio/Plugins", commands);
+        ProcessProgram(androidStudioPlugin, "../com.unity.nativeprofilers.androidsystrace/Plugins", commands);
 
         NativeProgram streamlineAnalyzerPlugin = new NativeProgram("libstreamlineanalyzer");
         streamlineAnalyzerPlugin.PrebuiltLibraries.Add(new SystemLibrary("log"));
         streamlineAnalyzerPlugin.Sources.Add("src/ProfilerPlugin.cpp");
         streamlineAnalyzerPlugin.Sources.Add("src/TraceApi_StreamlineAnalyzer.cpp");
         streamlineAnalyzerPlugin.Sources.Add("src/Arm");
-        ProcessProgram(streamlineAnalyzerPlugin, "../com.unity.streamlineanalyzer/Plugins", commands);
+        ProcessProgram(streamlineAnalyzerPlugin, "../com.unity.nativeprofilers.streamlineanalyzer/Plugins", commands);
     }
 
     private static void ProcessProgram(NativeProgram plugin, string targetDir, List<BuildCommand> commands)

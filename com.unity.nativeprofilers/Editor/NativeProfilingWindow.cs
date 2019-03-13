@@ -8,17 +8,28 @@ using UnityEditor.PackageManager;
 
 
 // Tasks:
-// - m_ActiveTool - should NativeTool instead of string id
-// - Android project props needs to be moved out of Android Studio prep
+// - Save last selected tool
+// - Colors for enabled/disabled post-processor
 // - Streamline Analyzer - same as AS integration, just w/o export (build APK) and with different plugin
 // - VTune integration - development/release, with plugin and ScriptablePlayerLoop class (depends on build type, as DEFINE, to exclude in Development build)
 // - MGD - vulkan/ogl - can I include pre-build .so with plugin?
-
 
 namespace Unity.NativeProfiling
 {
     public class NativeProfilingWindow : EditorWindow
     {
+        private Button m_ToolSelector;
+        private List<VisualElement> m_Phases = new List<VisualElement>();
+
+        private Wizard m_ActiveTool = null;
+        private Wizard[] m_Tools = {
+            new AndroidStudioIntegration(),
+            new StreamlineAnalyzerIntegration(),
+            new SnapdragonProfilerIntegration(),
+            new VTuneAmplifierIntegration()
+        };
+
+
         [MenuItem("Window/Analysis/Profiling Tools")]
         public static void ShowWindow()
         {
@@ -26,16 +37,6 @@ namespace Unity.NativeProfiling
             wnd.titleContent = new GUIContent("Native profiling wizard");
             wnd.minSize = new Vector2(200, 300);
         }
-
-        private string m_ActiveTool = "";
-        private NativeTool[] m_Tools = {
-            new AndroidStudioIntegration(),
-            new StreamlineAnalyzerIntegration(),
-            new SnapdragonProfilerIntegration(),
-            new VTuneAmplifierIntegration()
-        };
-
-        private Button m_ToolSelector;
 
         private void OnEnable()
         {
@@ -46,10 +47,10 @@ namespace Unity.NativeProfiling
             var template = Resources.Load<VisualTreeAsset>("nativeprofiling-template");
             template.CloneTree(root, null);
 
-            m_ToolSelector = root.Q("group-1").Q<Button>("selector");
+            m_ToolSelector = root.Q("tool-selector").Q<Button>("selector");
             m_ToolSelector.clickable.clickedWithEventInfo += OnToolSelectorMouseDown;
 
-            SetActiveTool("");
+            SetActiveTool(null);
         }
 
         private void OnToolSelectorMouseDown(EventBase evt)
@@ -58,12 +59,13 @@ namespace Unity.NativeProfiling
                 return;
 
             var menu = new GenericMenu();
-            menu.AddItem(new GUIContent("None"), m_ActiveTool == "", () => { SetActiveTool(""); });
+            menu.AddItem(new GUIContent("None"), m_ActiveTool == null, () => { SetActiveTool(null); });
             foreach (var tool in m_Tools)
             {
-                menu.AddItem(new GUIContent(tool.Name), m_ActiveTool == tool.Name, () => { SetActiveTool(tool.Name); });
+                menu.AddItem(new GUIContent(tool.Name), m_ActiveTool == tool, () => { SetActiveTool(tool); });
             }
 
+            // Show dropdown menu
             var root = this.GetRootVisualContainer();
             var menuPosition = new Vector2(0, m_ToolSelector.layout.height);
             menuPosition = m_ToolSelector.LocalToWorld(menuPosition);
@@ -71,63 +73,55 @@ namespace Unity.NativeProfiling
             menu.DropDown(menuRect);
         }
 
-        private void SetActiveTool(string toolId)
+        private void SetActiveTool(Wizard wizard)
         {
-            // Remove packages
-            var prevActiveTool = GetActiveTool();
-            if ((prevActiveTool != null) && (prevActiveTool.RequiredPackages != null))
+            // Clear old wizard UI
+            foreach (var phase in m_Phases)
             {
-                foreach(var pkg in prevActiveTool.RequiredPackages)
+                phase.RemoveFromHierarchy();
+            }
+            m_Phases.Clear();
+
+            // Remove packages
+            if ((m_ActiveTool != null) && (m_ActiveTool.RequiredPackages != null))
+            {
+                foreach(var pkg in m_ActiveTool.RequiredPackages)
                     Client.Remove(pkg);
             }
 
             // Set active tool
-            m_ActiveTool = toolId;
-            m_ToolSelector.text = (m_ActiveTool == "" ? "None" : m_ActiveTool) + " ▾";
+            m_ActiveTool = wizard;
+            m_ToolSelector.text = (m_ActiveTool == null ? "None" : m_ActiveTool.Name) + " ▾";
 
-            var activeTool = GetActiveTool();
+            if (m_ActiveTool == null)
+                return;
 
             // Add packages
-            if ((activeTool != null) && (activeTool.RequiredPackages != null))
+            if (m_ActiveTool.RequiredPackages != null)
             {
-                foreach (var pkg in activeTool.RequiredPackages)
+                foreach (var pkg in m_ActiveTool.RequiredPackages)
                     Client.Add(pkg);
             }
 
-            // Update UI
-            var root = this.GetRootVisualContainer();
-            IEnumerator<NativeToolPhase> buildParams = activeTool != null ? activeTool.GetPhases().GetEnumerator() : null;
-            for (int i = 2; i < 6; ++i)
+            // Generate UI for wizard phases
+            var root = this.GetRootVisualContainer().Q("phases-view");
+            if (m_ActiveTool.GetPhases() != null)
             {
-                var group = root.Q("group-" + i);
-
-                if ((buildParams != null) && (buildParams.MoveNext()))
+                int counter = 2;
+                foreach (var phase in m_ActiveTool.GetPhases())
                 {
-                    group.visible = true;
-                    group.Q<Label>("header").text = buildParams.Current.name;
+                    var phaseGroup = new VisualElement();
+                    phaseGroup.AddToClassList("wizard-group");
+                    phaseGroup.AddToClassList("horizontal-group");
+                    phase.SetPhase(counter);
+                    phase.Update(phaseGroup);
 
-                    var content = group.Q("content");
-                    content.Clear();
-                    buildParams.Current.BuildUI(content);
-                }
-                else
-                {
-                    var content = group.Q("content");
-                    content.Clear();
-                    group.visible = false;
+                    counter++;
+
+                    root.Add(phaseGroup);
+                    m_Phases.Add(phaseGroup);
                 }
             }
-        }
-
-        private NativeTool GetActiveTool()
-        {
-            foreach (var tool in m_Tools)
-            {
-                if (tool.Name == m_ActiveTool)
-                    return tool;
-            }
-
-            return null;
         }
     }
 }

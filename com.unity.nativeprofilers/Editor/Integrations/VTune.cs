@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Unity.NativeProfiling
 {
-    public class VTuneAmplifierIntegration : NativeTool
+    public class VTuneAmplifierIntegration : Wizard
     {
         public string Name
         {
@@ -14,7 +14,7 @@ namespace Unity.NativeProfiling
             get { return null; }
         }
 
-        public IEnumerable<NativeToolPhase> GetPhases()
+        public IEnumerable<WizardPhase> GetPhases()
         {
             yield return null;
         }

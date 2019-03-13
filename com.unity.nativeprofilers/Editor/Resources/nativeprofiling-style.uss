@@ -1,78 +1,6 @@
-#root {
-    flex-grow: 1;
-    flex-direction: column;
-}
-
-#root > #header {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-right: 0px;
-    margin-left: 0px;
-
-    border-color: rgb(66, 133, 244);
-    border-bottom-width: 2px;
-
-    background-color: rgb(243, 243, 243);
-
-    flex-direction: column;
-}
-
-#wizard {
-    flex-grow: 1;    
-}
-
-#wizard #content {
-    margin-left: 5px;
-    margin-right: 5px;
-
-    flex-grow: 1;    
-}
-
-#wizard #phase {
-    min-width: 50px;
-}
-
-.wizard-group {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.wizard-group .name-label {
-    width: 250px;
-}
-
-.notify {
-    background-color: rgb(66, 133, 244);
-
-    margin-top: 2px;
-    margin-bottom: 2px;
-    margin-right: 2px;
-    margin-left: 2px;
-
-    border-color: rgb(255, 255, 255);
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
-
-    flex-direction: row;
-}
-
-.horizontal-group {
-    flex-direction: column;
-}
-.vertical-group {
-    flex-direction: row;
-}
-
-#wizard-view {
-    flex-direction: column;
-}
-
-.large-text {
-    font-size: 20;
-}
-
+/**********************************************************************************************************************/
+/* Generic styles                                                                                                    */
+/**********************************************************************************************************************/
 .h1 {
     font-size: 20;
     margin-top: 6px;
@@ -81,12 +9,31 @@
 
 .h2 {
     font-size: 16;
+    -unity-font-style: bold;
     margin-top: 4px;
     margin-bottom: 8px;
 }
 
-.stretch-content {
-    flex-grow: 1;    
+.h3 {
+    font-size: 14;
+    -unity-font-style: bold;
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+.link {
+  color: #0808FC;
+  background: rgba(0, 0, 0, 0);
+  background-image: none;
+  margin-top: 0;
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-right: 0;
+  padding-top: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+  cursor: link;
 }
 
 .vertical-separator {
@@ -101,7 +48,21 @@
     background-color: rgb(63, 63, 63);
 }
 
+/**********************************************************************************************************************/
+/* Generic layout                                                                                                    */
+/**********************************************************************************************************************/
+.horizontal-group {
+    flex-direction: row;
+}
 
+.vertical-group {
+    flex-direction: column;
+}
+
+
+/**********************************************************************************************************************/
+/* Warning panel                                                                                                      */
+/**********************************************************************************************************************/
 .warning-panel {
     flex-grow: 1;    
     flex-direction: row;
@@ -138,6 +99,57 @@
     -unity-text-align: middle-left;
 }
 
+/**********************************************************************************************************************/
+/* Wizard window header                                                                                               */
+/**********************************************************************************************************************/
+#wizard {
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+#wizard > #header {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+
+    border-color: rgb(66, 133, 244);
+    border-bottom-width: 2px;
+
+    background-color: rgb(243, 243, 243);
+
+    flex-direction: column;
+}
+
+#wizard #phases {
+    flex-grow: 1;    
+}
+
+#wizard #phases-view {
+    margin-left: 5px;
+    margin-right: 5px;
+
+    flex-grow: 1;    
+    flex-direction: column;
+}
+
+#wizard #phase {
+    min-width: 50px;
+}
+
+.wizard-group {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.wizard-group .name-label {
+    width: 250px;
+}
+
+.wizard-group .value-label {
+    width: 100px;
+}
+
 .compact-button {
     margin-top: 1px;
     margin-bottom: 0px;
@@ -149,17 +161,11 @@
     border-bottom-width: 0px;
 }
 
-.link {
-  color: #0808FC;
-  background: rgba(0, 0, 0, 0);
-  background-image: none;
-  margin-top: 0;
-  margin-left: 0;
-  margin-bottom: 0;
-  margin-right: 0;
-  padding-top: 0;
-  padding-left: 0;
-  padding-bottom: 0;
-  padding-right: 0;
-  cursor: link;
+.stretch-content {
+    flex-grow: 1;
+}
+
+.padding-lr {
+    padding-left: 5px;
+    padding-right: 5px;
 }

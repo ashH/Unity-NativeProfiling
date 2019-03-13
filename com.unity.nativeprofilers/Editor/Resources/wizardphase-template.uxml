@@ -1,0 +1,8 @@
+<UXML xmlns:ui="UnityEngine.Experimental.UIElements" xmlns:ue="UnityEditor.Experimental.UIElements">
+    <ui:Label name="phase" class="h1"/>
+    <ui:VisualElement class="vertical-separator" />
+    <ui:VisualElement class="padding-lr vertical-group stretch-content">
+        <ui:Label name="header" class="h2"/>
+        <ui:VisualElement name="content"/>
+    </ui:VisualElement>
+</UXML>
