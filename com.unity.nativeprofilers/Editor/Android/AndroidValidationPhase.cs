@@ -46,7 +46,7 @@ namespace Unity.NativeProfiling
             nameLabel.AddToClassList("nameLabel");
 
             var statusGroup = new VisualElement();
-            statusGroup.style.flex = 1;
+            statusGroup.AddToClassList("stretchContent");
 
             var statusLabel = new Label("Good");
             var statusFixButton = new Button(null);
