@@ -18,24 +18,39 @@ class BuildProgram
 {
     static void Main()
     {
-        // Building AndroidStudio plugin
-        List<BuildCommand> commands = new List<BuildCommand>();
-        commands.Add(BuildCommand.Create(new AndroidNdkToolchain(AndroidNdk.LocatorArmv7.UserDefaultOrLatest), "android", "Android/armeabi-v7a"));
-        commands.Add(BuildCommand.Create(new AndroidNdkToolchain(AndroidNdk.LocatorArm64.UserDefaultOrLatest), "android", "Android/arm64-v8a"));
-        commands.Add(BuildCommand.Create(new AndroidNdkToolchain(AndroidNdk.Locatorx86.UserDefaultOrLatest), "android", "Android/x86"));
+        // For Windows plugins
+        List<BuildCommand> windows = new List<BuildCommand>();
+        windows.Add(BuildCommand.Create(new WindowsToolchain(WindowsSdk.Locatorx86.UserDefaultOrLatest), "windows", "x86"));
+        windows.Add(BuildCommand.Create(new WindowsToolchain(WindowsSdk.Locatorx64.UserDefaultOrLatest), "windows", "x86_64"));
+
+        // For Android plugins
+        List<BuildCommand> android = new List<BuildCommand>();
+        android.Add(BuildCommand.Create(new AndroidNdkToolchain(AndroidNdk.LocatorArmv7.UserDefaultOrLatest), "android", "Android/armeabi-v7a"));
+        android.Add(BuildCommand.Create(new AndroidNdkToolchain(AndroidNdk.LocatorArm64.UserDefaultOrLatest), "android", "Android/arm64-v8a"));
+        android.Add(BuildCommand.Create(new AndroidNdkToolchain(AndroidNdk.Locatorx86.UserDefaultOrLatest), "android", "Android/x86"));
+
 
         NativeProgram androidStudioPlugin = new NativeProgram("libandroidstudio");
-        androidStudioPlugin.PrebuiltLibraries.Add(new SystemLibrary("log"));
         androidStudioPlugin.Sources.Add("src/ProfilerPlugin.cpp");
-        androidStudioPlugin.Sources.Add("src/TraceApi_AndroidStudio.cpp");
-        ProcessProgram(androidStudioPlugin, "../com.unity.nativeprofilers.androidsystrace/Plugins", commands);
+        androidStudioPlugin.Sources.Add("src/AndroidSystrace.cpp");
+        androidStudioPlugin.Sources.Add("src/AndroidSystraceProfiler.cpp");
+        androidStudioPlugin.PrebuiltLibraries.Add(new SystemLibrary("log"));
+        ProcessProgram(androidStudioPlugin, "../com.unity.nativeprofilers.androidsystrace/Plugins", android);
 
         NativeProgram streamlineAnalyzerPlugin = new NativeProgram("libstreamlineanalyzer");
-        streamlineAnalyzerPlugin.PrebuiltLibraries.Add(new SystemLibrary("log"));
         streamlineAnalyzerPlugin.Sources.Add("src/ProfilerPlugin.cpp");
-        streamlineAnalyzerPlugin.Sources.Add("src/TraceApi_StreamlineAnalyzer.cpp");
+        streamlineAnalyzerPlugin.Sources.Add("src/StreamlineAnalyzerProfiler.cpp");
         streamlineAnalyzerPlugin.Sources.Add("src/Arm");
-        ProcessProgram(streamlineAnalyzerPlugin, "../com.unity.nativeprofilers.streamlineanalyzer/Plugins", commands);
+        streamlineAnalyzerPlugin.PrebuiltLibraries.Add(new SystemLibrary("log"));
+        ProcessProgram(streamlineAnalyzerPlugin, "../com.unity.nativeprofilers.streamlineanalyzer/Plugins", android);
+
+        NativeProgram vtuneAmplifierPlugin = new NativeProgram("vtuneamplifier");
+        vtuneAmplifierPlugin.Sources.Add("src/ProfilerPlugin.cpp");
+        vtuneAmplifierPlugin.Sources.Add("src/VTuneAmplifierProfiler.cpp");
+        vtuneAmplifierPlugin.DynamicLinkerSettingsForWindows().Add(s => s.WithDefinitionFile("src/ProfilerPlugin.def"));
+        vtuneAmplifierPlugin.PrebuiltLibraries.Add((program) => { return program.ToolChain.Architecture == Architecture.x64 ? true : false; }, new StaticLibrary("src/Intel/libittnotify64.lib"));
+        vtuneAmplifierPlugin.PrebuiltLibraries.Add((program) => { return program.ToolChain.Architecture == Architecture.x86 ? true : false; }, new StaticLibrary("src/Intel/libittnotify32.lib"));
+        ProcessProgram(vtuneAmplifierPlugin, "../com.unity.nativeprofilers.vtune/Plugins", windows);
     }
 
     private static void ProcessProgram(NativeProgram plugin, string targetDir, List<BuildCommand> commands)

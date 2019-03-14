@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+      "com.unity.nativeprofilers": "0.1.0",
+  }, 
+  "name": "com.unity.nativeprofilers.vtune",
+  "displayName":  "Intel VTune integration",
+  "version": "0.1.0",
+  "unity": "2018.2",
+  "description": "Intel VTune Aplifier integration with Unity Profiler and API for annotations.\n\nThis package is only supported on x86 and Amd64 platforms.",
+  "keywords": [
+    "performance",
+    "unity"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "URL_GOES_HERE",
+    "revision": "REVISION_GOES_HERE"
+  }
+}

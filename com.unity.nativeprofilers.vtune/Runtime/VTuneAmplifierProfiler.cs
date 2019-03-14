@@ -6,12 +6,12 @@ using UnityEngine.Scripting;
 
 namespace Unity.NativeProfiling
 {
-    public class StreamlineAnalyzerProfiler : INativeProfiler
+    public class VTuneAmplifierProfiler : INativeProfiler
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Startup()
         {
-            NativeProfiler.RegisterProfiler(new StreamlineAnalyzerProfiler());
+            NativeProfiler.RegisterProfiler(new VTuneAmplifierProfiler());
         }
 
         public void BeginMarker(string name)
@@ -25,10 +25,10 @@ namespace Unity.NativeProfiling
         }
 
 
-        [DllImport("streamlineanalyzer")]
+        [DllImport("vtuneamplifier")]
         private static extern void SimpleMarkerBegin([MarshalAs(UnmanagedType.LPStr)]string str);
 
-        [DllImport("streamlineanalyzer")]
+        [DllImport("vtuneamplifier")]
         private static extern void SimpleMarkerEnd();
     }
 }
