@@ -6,6 +6,7 @@ using UnityEngine.Scripting;
 
 namespace Unity.NativeProfiling
 {
+    /*
     public class VTuneAmplifierProfiler : INativeProfiler
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -31,4 +32,5 @@ namespace Unity.NativeProfiling
         [DllImport("vtuneamplifier")]
         private static extern void SimpleMarkerEnd();
     }
+    */
 }

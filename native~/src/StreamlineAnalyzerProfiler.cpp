@@ -6,13 +6,13 @@
 #define  LOG_TAG    "Unity"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
+thread_local int channelId = 0;
 static IUnityProfilerCallbacks* s_UnityProfilerCallbacks = NULL;
 static const UnityProfilerMarkerDesc* s_DefaultMarkerDesc = NULL;
 
 static void UNITY_INTERFACE_API CreateMarkerCallback(const UnityProfilerMarkerDesc* eventDesc, void* userData);
 static void UNITY_INTERFACE_API EventCallback(const UnityProfilerMarkerDesc* eventDesc, UnityProfilerMarkerEventType eventType, unsigned short eventDataCount, const UnityProfilerMarkerData* eventData, void* userData);
 static void UNITY_INTERFACE_API FrameCallback(void* userData);
-
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginLoad(IUnityInterfaces* unityInterfaces)
 {
@@ -69,18 +69,21 @@ static void UNITY_INTERFACE_API EventCallback(const UnityProfilerMarkerDesc* eve
                 // For simplicity we slice UTF16 data to char.
                 char S_TEMP_BUFFER[256];
                 UTF16TOANSI(eventData[1].ptr, eventData[1].size, S_TEMP_BUFFER, sizeof(S_TEMP_BUFFER));
-                ANNOTATE(S_TEMP_BUFFER);
+                ANNOTATE_CHANNEL(channelId, S_TEMP_BUFFER);
             }
             else
             {
-                ANNOTATE(eventDesc->name);
+                ANNOTATE_CHANNEL(channelId, eventDesc->name);
             }
+
+            channelId += 1;
 
             break;
         }
         case kUnityProfilerMarkerEventTypeEnd:
         {
-            ANNOTATE_END();
+            channelId -= 1;
+            ANNOTATE_CHANNEL_END(channelId);
             break;
         }
     }

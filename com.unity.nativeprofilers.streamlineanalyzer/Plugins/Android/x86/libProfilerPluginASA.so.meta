@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 20bbd76df104a1d479e036050f891689
+guid: 98d903dd1ecfd244f8b2636715455a27
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
   iconMap: {}
   executionOrder: {}
   defineConstraints: []
-  isPreloaded: 0
+  isPreloaded: 1
   isOverridable: 0
   isExplicitlyReferenced: 0
   platformData:
@@ -28,7 +28,7 @@ PluginImporter:
     second:
       enabled: 1
       settings:
-        CPU: ARM64
+        CPU: x86
   - first:
       Any: 
     second:

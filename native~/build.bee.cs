@@ -11,6 +11,7 @@ using Bee.Core;
 using Bee.Toolchain.Android;
 using Bee.Toolchain.IOS;
 using Bee.Toolchain.Windows;
+using Bee.Toolchain.Linux;
 using Bee.Toolchain.VisualStudio;
 using Bee.Toolchain.GNU;
 
@@ -19,9 +20,10 @@ class BuildProgram
     static void Main()
     {
         // For Windows plugins
-        List<BuildCommand> windows = new List<BuildCommand>();
-        windows.Add(BuildCommand.Create(new WindowsToolchain(WindowsSdk.Locatorx86.UserDefaultOrLatest), "windows", "x86"));
-        windows.Add(BuildCommand.Create(new WindowsToolchain(WindowsSdk.Locatorx64.UserDefaultOrLatest), "windows", "x86_64"));
+        List<BuildCommand> desktop = new List<BuildCommand>();
+        desktop.Add(BuildCommand.Create(new WindowsToolchain(WindowsSdk.Locatorx86.UserDefaultOrLatest), "windows", "x86"));
+        desktop.Add(BuildCommand.Create(new WindowsToolchain(WindowsSdk.Locatorx64.UserDefaultOrLatest), "windows", "x86_64"));
+        desktop.Add(BuildCommand.Create(new LinuxGccToolchain(WSLGccSdk.Locatorx64.UserDefaultOrLatest), "linux", "x86_64"));
 
         // For Android plugins
         List<BuildCommand> android = new List<BuildCommand>();
@@ -30,27 +32,29 @@ class BuildProgram
         android.Add(BuildCommand.Create(new AndroidNdkToolchain(AndroidNdk.Locatorx86.UserDefaultOrLatest), "android", "Android/x86"));
 
 
-        NativeProgram androidStudioPlugin = new NativeProgram("libandroidstudio");
+        NativeProgram androidStudioPlugin = new NativeProgram("libProfilerPluginGAS");
         androidStudioPlugin.Sources.Add("src/ProfilerPlugin.cpp");
         androidStudioPlugin.Sources.Add("src/AndroidSystrace.cpp");
         androidStudioPlugin.Sources.Add("src/AndroidSystraceProfiler.cpp");
         androidStudioPlugin.PrebuiltLibraries.Add(new SystemLibrary("log"));
         ProcessProgram(androidStudioPlugin, "../com.unity.nativeprofilers.androidsystrace/Plugins", android);
 
-        NativeProgram streamlineAnalyzerPlugin = new NativeProgram("libstreamlineanalyzer");
+        NativeProgram streamlineAnalyzerPlugin = new NativeProgram("libProfilerPluginASA");
         streamlineAnalyzerPlugin.Sources.Add("src/ProfilerPlugin.cpp");
         streamlineAnalyzerPlugin.Sources.Add("src/StreamlineAnalyzerProfiler.cpp");
         streamlineAnalyzerPlugin.Sources.Add("src/Arm");
         streamlineAnalyzerPlugin.PrebuiltLibraries.Add(new SystemLibrary("log"));
         ProcessProgram(streamlineAnalyzerPlugin, "../com.unity.nativeprofilers.streamlineanalyzer/Plugins", android);
 
-        NativeProgram vtuneAmplifierPlugin = new NativeProgram("vtuneamplifier");
+        NativeProgram vtuneAmplifierPlugin = new NativeProgram("ProfilerPluginIVT");
         vtuneAmplifierPlugin.Sources.Add("src/ProfilerPlugin.cpp");
         vtuneAmplifierPlugin.Sources.Add("src/VTuneAmplifierProfiler.cpp");
         vtuneAmplifierPlugin.DynamicLinkerSettingsForWindows().Add(s => s.WithDefinitionFile("src/ProfilerPlugin.def"));
-        vtuneAmplifierPlugin.PrebuiltLibraries.Add((program) => { return program.ToolChain.Architecture == Architecture.x64 ? true : false; }, new StaticLibrary("src/Intel/libittnotify64.lib"));
-        vtuneAmplifierPlugin.PrebuiltLibraries.Add((program) => { return program.ToolChain.Architecture == Architecture.x86 ? true : false; }, new StaticLibrary("src/Intel/libittnotify32.lib"));
-        ProcessProgram(vtuneAmplifierPlugin, "../com.unity.nativeprofilers.vtune/Plugins", windows);
+        vtuneAmplifierPlugin.PrebuiltLibraries.Add((program) => { return (program.Platform is WindowsPlatform) && (program.ToolChain.Architecture == Architecture.x86); }, new StaticLibrary("src/Intel/libittnotify32.lib"));
+        vtuneAmplifierPlugin.PrebuiltLibraries.Add((program) => { return (program.Platform is WindowsPlatform) && (program.ToolChain.Architecture == Architecture.x64); }, new StaticLibrary("src/Intel/libittnotify64.lib"));
+        vtuneAmplifierPlugin.PrebuiltLibraries.Add((program) => { return program.Platform is LinuxPlatform; }, new StaticLibrary("src/Intel/libittnotify64.a"));
+        vtuneAmplifierPlugin.PrebuiltLibraries.Add((program) => { return program.Platform is LinuxPlatform; }, new SystemLibrary("dl"));
+        ProcessProgram(vtuneAmplifierPlugin, "../com.unity.nativeprofilers.vtune/Plugins", desktop);
     }
 
     private static void ProcessProgram(NativeProgram plugin, string targetDir, List<BuildCommand> commands)

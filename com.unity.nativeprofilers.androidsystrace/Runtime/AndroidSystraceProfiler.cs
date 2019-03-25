@@ -6,6 +6,7 @@ using UnityEngine.Scripting;
 
 namespace Unity.NativeProfiling
 {
+    /*
     public class AndroidSystraceProfiler : INativeProfiler
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -31,4 +32,5 @@ namespace Unity.NativeProfiling
         [DllImport("androidstudio")]
         private static extern void SimpleMarkerEnd();
     }
+    */
 }

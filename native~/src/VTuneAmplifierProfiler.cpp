@@ -1,5 +1,8 @@
 #include <string.h>
 #include "ProfilerPlugin.h"
+
+#undef UNICODE
+#undef _UNICODE
 #include "Intel/ittnotify.h"
 
 static bool s_ShouldEndFrame = false;
@@ -16,7 +19,7 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginLoad(IUnit
 {
     // VTune expects only one domain per app, although plugins lifetime is the same as the app
     if (s_UnityDomain == NULL)
-        s_UnityDomain = __itt_domain_create(L"com.unity.nativeprofilers.vtune");
+        s_UnityDomain = __itt_domain_create("com.unity.nativeprofilers.vtune");
 
     s_DefaultMarkerDesc = NULL;
 
@@ -36,7 +39,7 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginUnload()
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SimpleMarkerBegin(const char *name)
 {
-    __itt_string_handle* handle = __itt_string_handle_createA(name);
+    __itt_string_handle* handle = __itt_string_handle_create(name);
     __itt_task_begin(s_UnityDomain, __itt_null, __itt_null, handle);
 }
 
@@ -55,7 +58,7 @@ static void UNITY_INTERFACE_API CreateMarkerCallback(const UnityProfilerMarkerDe
             s_DefaultMarkerDesc = eventDesc;
     }
 
-    __itt_string_handle* handle = __itt_string_handle_createA(eventDesc->name);
+    __itt_string_handle* handle = __itt_string_handle_create(eventDesc->name);
     s_UnityProfilerCallbacks->RegisterMarkerEventCallback(eventDesc, &EventCallback, handle);
 }
 
@@ -68,11 +71,11 @@ static void UNITY_INTERFACE_API EventCallback(const UnityProfilerMarkerDesc* eve
         case kUnityProfilerMarkerEventTypeBegin:
             if (eventDataCount > 2 && eventDesc != NULL && eventDesc == s_DefaultMarkerDesc)
             {
-                // Default marker emits UTF16 string as the second metadata parameter.
-                const wchar_t* name = static_cast<const wchar_t*>(eventData[1].ptr);
+                char S_TEMP_BUFFER[256];
+                UTF16TOANSI(eventData[1].ptr, eventData[1].size, S_TEMP_BUFFER, sizeof(S_TEMP_BUFFER));
 
                 // Override handle
-                handle = __itt_string_handle_createW(name);
+                handle = __itt_string_handle_create(S_TEMP_BUFFER);
             }
 
             __itt_task_begin(s_UnityDomain, __itt_null, __itt_null, handle);

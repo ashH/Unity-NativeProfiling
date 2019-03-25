@@ -1,5 +1,6 @@
 namespace Unity.NativeProfiling
 {
+    /*
     public class NativeProfiler
     {
         public static void RegisterProfiler(INativeProfiler profiler)
@@ -19,4 +20,5 @@ namespace Unity.NativeProfiling
         {
         }
     }
+    */
 }
