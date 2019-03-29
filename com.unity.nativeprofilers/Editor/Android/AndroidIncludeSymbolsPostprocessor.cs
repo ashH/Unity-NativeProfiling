@@ -47,11 +47,32 @@ namespace Unity.NativeProfiling
             // Target folder
             var buildPath = Path.Combine(path, PlayerSettings.productName);
 
-            // Copy unstripped libil2cpp from stagin area
+            // Default to ARMv7 and not ARM64, as 64-bit support doesn't exist prior to 2017 LTS
+            bool buildingARMv7 = true;
+            bool buildingARM64 = false;
+#if UNITY_2017_3_OR_NEWER
+            buildingARMv7 = ((PlayerSettings.Android.targetArchitectures & AndroidArchitecture.ARMv7) != 0);
+            buildingARM64 = ((PlayerSettings.Android.targetArchitectures & AndroidArchitecture.ARM64) != 0);
+#endif
+            var armv7aFolder = "armeabi-v7a";
+            var armv64Folder = "arm64-v8a";
+
+            // Copy unstripped libil2cpp from staging area
             var projectPath = Directory.GetCurrentDirectory();
-            var libIl2cppTarget = Path.Combine(buildPath, "src/main/jniLibs/armeabi-v7a/libil2cpp.so");
-            var libIl2cppSource = "Temp/StagingArea/symbols/armeabi-v7a/libil2cpp.so.debug";
-            CopyFile(new string[] { projectPath }, libIl2cppSource, libIl2cppTarget);
+            var libIl2cppTarget = "src/main/jniLibs/{0}/libil2cpp.so";
+            var libIl2cppSource = "Temp/StagingArea/symbols/{0}/libil2cpp.so.debug";
+            if (buildingARMv7)
+            {
+                var targetPath = Path.Combine(buildPath, String.Format(libIl2cppTarget, armv7aFolder));
+                var sourcePath = String.Format(libIl2cppSource, armv7aFolder);
+                CopyFile(new string[] { projectPath }, sourcePath, targetPath);
+            }
+            if (buildingARM64)
+            {
+                var targetPath = Path.Combine(buildPath, String.Format(libIl2cppTarget, armv64Folder));
+                var sourcePath = String.Format(libIl2cppSource, armv64Folder);
+                CopyFile(new string[] { projectPath }, sourcePath, targetPath);
+            }
 
             // Copy unstripped libunity.so from Unity Editor folder
             // Source folder can be different, depends on platform and they way Unity was built
@@ -62,9 +83,20 @@ namespace Unity.NativeProfiling
             EditorApplication.applicationContentsPath,
             };
 
-            var libUnityTarget = Path.Combine(buildPath, "src/main/jniLibs/armeabi-v7a/libunity.so");
-            var libUnitySource = "PlaybackEngines/AndroidPlayer/Variations/il2cpp/Development/Libs/armeabi-v7a/libunity.so";
-            CopyFile(pbeLocations, libUnitySource, libUnityTarget);
+            var libUnityTarget = "src/main/jniLibs/{0}/libunity.so";
+            var libUnitySource = "PlaybackEngines/AndroidPlayer/Variations/il2cpp/Development/Libs/{0}/libunity.so";
+            if (buildingARMv7)
+            {
+                var targetPath = Path.Combine(buildPath, String.Format(libUnityTarget, armv7aFolder));
+                var sourcePath = String.Format(libUnitySource, armv7aFolder);
+                CopyFile(pbeLocations, sourcePath, targetPath);
+            }
+            if (buildingARM64)
+            {
+                var targetPath = Path.Combine(buildPath, String.Format(libUnityTarget, armv64Folder));
+                var sourcePath = String.Format(libUnitySource, armv64Folder);
+                CopyFile(pbeLocations, sourcePath, targetPath);
+            }
         }
 
         private bool CopyFile(string[] baseSrc, string src, string dst)

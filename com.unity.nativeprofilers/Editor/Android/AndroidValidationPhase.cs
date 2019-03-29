@@ -26,7 +26,7 @@ namespace Unity.NativeProfiling
             MakeRow(table, "Force SD Card permissions", () => PlayerSettings.Android.forceSDCardPermission, () => { PlayerSettings.Android.forceSDCardPermission = true; });
             MakeRow(table, "Installation location - external", () => PlayerSettings.Android.preferredInstallLocation == AndroidPreferredInstallLocation.PreferExternal, () => { PlayerSettings.Android.preferredInstallLocation = AndroidPreferredInstallLocation.PreferExternal; });
 #if UNITY_2017_3_OR_NEWER
-            MakeRow(table, "Limit to ARM v7 target", () => PlayerSettings.Android.targetArchitectures == AndroidArchitecture.ARMv7, () => { PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7; });
+            MakeRow(table, "Limit to ARM v7 or 64 targets", () => ((PlayerSettings.Android.targetArchitectures & (AndroidArchitecture.ARMv7|AndroidArchitecture.ARM64)) != 0) && ((PlayerSettings.Android.targetArchitectures & AndroidArchitecture.X86) == 0), () => { PlayerSettings.Android.targetArchitectures &= ~AndroidArchitecture.X86; if ((PlayerSettings.Android.targetArchitectures & (AndroidArchitecture.ARMv7|AndroidArchitecture.ARM64)) == 0) PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7; });
 #else
             MakeRow(table, "Limit to ARM v7 target", () => { return PlayerSettings.Android.targetDevice == AndroidTargetDevice.ARMv7; }, () => { PlayerSettings.Android.targetDevice = AndroidTargetDevice.ARMv7; } );
 #endif
